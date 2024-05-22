@@ -1,0 +1,12 @@
+seed: 61
+output_dir: ${local.data_dir}/generated_data
+timestep: 0.1
+N_timesteps: 1000
+local:
+  base_dir: .
+  data_dir: ${local.base_dir}/data
+gt_model:
+  a0: 1.0
+  a1: 1.0
+  a2: 1.0
+  x0: 5.2

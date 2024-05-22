@@ -1,0 +1,14 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - local: default
+  - gt_model: default
+
+
+seed: 61
+output_dir: ${local.data_dir}/generated_data
+
+
+timestep: 0.1
+N_timesteps: 1000

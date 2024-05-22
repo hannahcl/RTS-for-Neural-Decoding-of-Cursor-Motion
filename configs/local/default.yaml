@@ -1,0 +1,2 @@
+base_dir: .
+data_dir: ${local.base_dir}/data
