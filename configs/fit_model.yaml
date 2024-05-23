@@ -1,0 +1,12 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - local: default
+  - gt_model: default
+
+input_dir: ${local.data_dir}/generated_data/
+output_dir: ${local.data_dir}/model/
+
+
+

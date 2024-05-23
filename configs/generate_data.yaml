@@ -7,8 +7,8 @@ defaults:
 
 
 seed: 61
-output_dir: ${local.data_dir}/generated_data
+output_dir: ${local.data_dir}/generated_data/
 
 
-timestep: 0.1
+timestep: 0.07 #/0 ms was used in the paper
 N_timesteps: 1000
