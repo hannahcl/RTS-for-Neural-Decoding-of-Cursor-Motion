@@ -3,7 +3,7 @@
 defaults:
   - _self_
   - local: default
-  - gt_model: default
+  - model: default
 
 
 seed: 61
@@ -12,3 +12,8 @@ output_dir: ${local.data_dir}/generated_data/
 
 timestep: 0.07 #/0 ms was used in the paper
 N_timesteps: 1000
+
+xi: [0, 0, 0, 0, 0, 0] #Initial state
+
+use_nonlin_model: True
+path_to_measurement_model: ${local.data_dir}/model/gt_mes_model.npz

@@ -1,0 +1,26 @@
+# Model parameters
+# x state vector - hand pos
+# z observation vector - cell fiering rates
+# x = [x,y, v_x, v_y, a_x, a_y]
+# z has shape Cx1, whether C is the number of cells
+
+C: 42 #Num cells
+nx: 6 #num states
+
+
+## Structure gt model
+# x' = A*x + w
+# z = h(x) + r
+
+A : [[0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]
+
+r: 0.1 #Mesurement noise. R = r * I (CxC)
+q_vec: [0.001, 0.001, 0.001, 0.001, 0.01, 0.01] #Process noise. Q = daig(q_vec)
+
+
+## Structure estimated model
+# x_(k+1) = A * x_k
+# z_k = H * x_k
+
+
+

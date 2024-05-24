@@ -8,16 +8,16 @@ import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning, module="nptyping.typing_")
 
 
-from scripts.generate_data import generate_data
+from scripts.generate_data import generate_data, create_random_model
 from scripts.fit_model import fit_model
 
-from src.models.gt_model import EstimatedMesurmentModel
+from src.models.models import MeasurmentModel
 
 
 @pytest.fixture
 def config():
     with initialize(version_base=None, config_path="../configs"):
-        cfg_generate_data = compose(config_name="generate_data", overrides=["N_timesteps=500", "local.base_dir=..", "gt_model.r=0.1"])
+        cfg_generate_data = compose(config_name="generate_data", overrides=["N_timesteps=500", "local.base_dir=..", "model.r=0.1"])
         cfg_fit_model = compose(config_name="fit_model", overrides=["local.base_dir=.."])
         combined_cfg = {'cfg_generate_data': cfg_generate_data, 'cfg_fit_model': cfg_fit_model}
     return combined_cfg
@@ -67,16 +67,14 @@ def test_generate_data_and_fit_model(config):
     cfg_fit_model = config['cfg_fit_model']
 
     ## Generate data from random matrix H
+    create_random_model(cfg_generate_data)
     generate_data(cfg_generate_data)
 
     ## Fit model
     fit_model(cfg_fit_model)
 
     #load model
-    data = np.load(cfg_fit_model.output_dir + '/model_H.npz')
-    H = data['H']
-    fitted_model = EstimatedMesurmentModel(cfg_fit_model)
-    fitted_model.set_model(H)
+    fitted_model = MeasurmentModel(cfg_fit_model)
 
     ## Generate data from fitted model and plot
 

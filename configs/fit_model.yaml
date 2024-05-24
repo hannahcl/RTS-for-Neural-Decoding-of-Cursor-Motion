@@ -3,10 +3,13 @@
 defaults:
   - _self_
   - local: default
-  - gt_model: default
+  - model: default
 
 input_dir: ${local.data_dir}/generated_data/
 output_dir: ${local.data_dir}/model/
+
+use_nonlin_model: False
+path_to_measurement_model: ${local.data_dir}/model/gt_mes_model.npz
 
 
 
