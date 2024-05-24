@@ -1,0 +1,27 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - local: default
+  - model: kf
+
+
+seed: 61
+input_dir: ${local.data_dir}/generated_data/
+output_dir: ${local.data_dir}/run_filter/
+
+
+timestep: 0.07 #/0 ms was used in the paper
+N_timesteps_test: 300
+
+xi: [0, 0, 0, 0, 0, 0] #Initial state
+Pi: [
+  [1, 0, 0, 0, 0, 0],
+  [0, 1, 0, 0, 0, 0],
+  [0, 0, 1, 0, 0, 0],
+  [0, 0, 0, 1, 0, 0], 
+  [0, 0, 0, 0, 1, 0], 
+  [0, 0, 0, 0, 0, 1]]
+
+use_nonlin_model: False
+path_to_measurement_model: ${local.data_dir}/model/fitted_model.npz

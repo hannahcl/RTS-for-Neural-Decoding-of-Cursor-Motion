@@ -17,7 +17,7 @@ def fit_model(cfg : DictConfig) -> None:
     if not os.path.exists(cfg.output_dir):
         os.makedirs(cfg.output_dir)
 
-    np.savez(cfg.output_dir + '/fitted_model.npz', H=H)
+    np.savez(cfg.output_dir + '/fitted_model.npz', H1=H)
 
 def _fit(data_file) -> NDArray[Shape["42, 6"], Float]:
 

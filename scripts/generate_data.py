@@ -16,20 +16,19 @@ def generate_data(cfg : DictConfig) -> None:
         os.makedirs(cfg.output_dir)
 
     random.seed(cfg.seed)
-    # TODO choose models based on config , mes model lin or non lin
     model = ProcessModel(cfg)
     mes_model = MeasurmentModel(cfg)
 
     x = np.array(cfg.xi)
     with open(cfg.output_dir + 'train_data.pkl', 'wb') as file:
-        for k in range(cfg.N_timesteps):
+        for k in range(cfg.N_timesteps_train):
             x = model.step_once(x)
             z = mes_model.get_measurement(x)
             pickle.dump((k, x, z), file)
 
     x_test = np.array(cfg.xi)
     with open(cfg.output_dir + 'test_data.pkl', 'wb') as file:
-        for k in range(cfg.N_timesteps):
+        for k in range(cfg.N_timesteps_test):
             x_test = model.step_once(x_test)
             z_test = mes_model.get_measurement(x_test)
             pickle.dump((k, x_test, z_test), file)

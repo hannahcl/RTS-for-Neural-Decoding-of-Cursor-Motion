@@ -17,7 +17,7 @@ class ProcessModel:
         assert self.q_vec.shape == (self.nx,)
         assert self.A.shape == (self.nx, self.nx)
 
-    def step_once(self, x: NDArray[Shape["6"], Float]) -> NDArray[Shape["2, 2"], Float]:
+    def step_once(self, x: NDArray[Shape["6"], Float]) -> NDArray[Shape["6, 6"], Float]:
         dx = self.A@x + np.random.normal(np.zeros(self.nx), self.q_vec)
         return x + dx*self.dt
 
@@ -52,7 +52,7 @@ class MeasurmentModel:
         z = self.H1@x
 
         if self.use_nonlin:
-            order2 = 0.01*self.H2@x@x.T@self.H2.T
+            order2 = self.cfg.nonlinear_weight*self.H2@x@x.T@self.H2.T
             z = z + order2@z
 
         z = z + np.random.normal(np.zeros(self.C), np.ones(self.C)*self.r).reshape((-1,1))
