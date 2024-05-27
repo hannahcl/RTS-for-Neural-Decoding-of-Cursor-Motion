@@ -21,7 +21,7 @@ A : [
   [0, 0, 0, 0, 0, 0]]
 
 r: 0.5 #Mesurement noise. R = r * I (CxC)
-q_vec: [0.0001, 0.0001, 0.0001, 0.0001, 0.01, 0.01] #Process noise. Q = daig(q_vec)
+q_vec: [0.0001, 0.0001, 0.0001, 0.0001, 1, 1] #Process noise. Q = daig(q_vec)
 
 
 ## Structure estimated model

@@ -69,6 +69,7 @@ def run_rts_and_store(cfg: dict) -> None:
                 k, x_gt, z = pickle.load(file)
                 rts.update(z)
                 x_est, P_est = rts.get_oldest_estimate()
+                # x_est, P_est = rts.get_newest_estimate()
 
                 timesteps[idx] = k
                 x_gt_vals[idx] = x_gt
