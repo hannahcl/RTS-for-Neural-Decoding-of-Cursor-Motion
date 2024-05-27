@@ -42,9 +42,13 @@ def test_run_pipeline(config):
     run_filters(cfg_run_filter)
 
     # Show results
-    plot_measurement_and_prediction(cfg_run_filter.output_dir + '/kf_output.npz')
-    plot_states(cfg_run_filter.output_dir + '/kf_output.npz')
+    # plot_measurement_and_prediction(cfg_run_filter.output_dir + '/kf_output.npz', 'Kalman Filter')
+    # plot_measurement_and_prediction(cfg_run_filter.output_dir + '/rts_output.npz', 'RTS Smoother')
+    plot_states(cfg_run_filter.output_dir + '/kf_output.npz', 'Kalman Filter')
+    plot_states(cfg_run_filter.output_dir + '/rts_output.npz', 'RTS Smoother')
     plt.show()
+
+
 
 
 

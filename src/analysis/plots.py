@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def plot_measurement_and_prediction(npz_file):
+def plot_measurement_and_prediction(npz_file: str, title: str = ''):
     # Load the data from the .npz file
     data = np.load(npz_file)
 
@@ -16,12 +16,12 @@ def plot_measurement_and_prediction(npz_file):
     plt.plot(timesteps, z_pred_vals[:, 0], label='z_pred[0]')
     plt.xlabel('Timesteps')
     plt.ylabel('z[0] Value')
-    plt.title('z[0] for Measured and Predicted Values')
+    plt.title(title + ': z[0] for Measured and Predicted Values')
     plt.legend()
     plt.grid(True)
     # plt.show()
 
-def plot_states(npz_file):
+def plot_states(npz_file: str, title: str = ''):
     # Load the data from the .npz file
     data = np.load(npz_file)
 
@@ -35,8 +35,8 @@ def plot_states(npz_file):
     plt.plot(timesteps, x_gt_vals[:, 0], label='x pos gt')
     plt.plot(timesteps, x_est_vals[:, 0], label='x pos estimate')
     plt.xlabel('Timesteps')
-    plt.ylabel('z[0] Value')
-    plt.title('z[0] for Measured and Predicted Values')
+    plt.ylabel('state Value')
+    plt.title(title + 'Pos x for Ground Truth and Estimate')
     plt.legend()
     plt.grid(True)
     # plt.show()

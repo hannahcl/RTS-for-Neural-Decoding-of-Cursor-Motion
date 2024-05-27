@@ -37,9 +37,7 @@ class KF:
             z: NDArray[Shape["42"], Float]
             ) -> Tuple[
                 NDArray[Shape["6"], Float],
-                NDArray[Shape["6,6"], Float],
-                NDArray[Shape["42"], Float], 
-                NDArray[Shape["42,42"], Float]]:
+                NDArray[Shape["6,6"], Float]]:
         
         x_predicted = self.A@x
         P_predicted = self.A@P@self.A.T + self.Q
@@ -52,4 +50,4 @@ class KF:
         x_posteriori = x_predicted - K@(z_predicted- z)
         P_posteriori = (np.eye(6) - K@self.H)@P_predicted@(np.eye(6) - K@self.H).T + K@self.R@K.T
 
-        return (x_posteriori, P_posteriori, z_predicted, S_predicted)
+        return (x_posteriori, P_posteriori)
