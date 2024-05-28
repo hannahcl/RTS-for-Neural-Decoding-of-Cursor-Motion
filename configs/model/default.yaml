@@ -21,6 +21,7 @@ A : [
   [0, 0, 0, 0, 0, 0]]
 
 r: 0.7 #Mesurement noise. R = r * I (CxC)
+r_outliers: 2
 q_vec: [0.0001, 0.0001, 0.0001, 0.0001, 0.01, 0.01] #Process noise. Q = daig(q_vec)
 
 

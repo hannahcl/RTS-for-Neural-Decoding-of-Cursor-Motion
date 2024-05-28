@@ -7,7 +7,7 @@ from src.filters.kalman_filter import KF
 class RTSSmoother:
     def __init__(self, cfg: dict) -> None:
     
-        self.lag = 1
+        self.lag = 5
 
         self.x_after_forward = np.zeros((self.lag, 6))
         self.P_after_forward = np.zeros((self.lag, 6, 6))
@@ -15,6 +15,7 @@ class RTSSmoother:
         self.P_after_backward = np.zeros((self.lag, 6, 6))
 
         self.kf = KF(cfg)
+        self.kf_backward = BackwardKF(cfg)
         xi = np.array(cfg.xi)
 
         self.mes = np.array([self.kf.H@xi for _ in range(self.lag)])
@@ -53,22 +54,30 @@ class RTSSmoother:
         self.x_after_backward[-1] = self.x_after_forward[-1]
         self.P_after_backward[-1] = self.P_after_forward[-1]
         for i in range(self.lag-2, -1, -1):
-            self.x_after_backward[i], self.P_after_backward[i] = self._backward_step(
+            self.x_after_backward[i], self.P_after_backward[i] = self.kf_backward.update(
                 self.x_after_forward[i],
                 self.P_after_forward[i],
                 self.x_after_backward[i+1],
                 self.P_after_backward[i+1]
-            )
+            )       
+    
+class BackwardKF:
+    def __init__(self, cfg: dict) -> None:
+        self.kf = KF(cfg)
+        self.A = self.kf.A
+        self.Q = self.kf.Q
+        self.H = self.kf.H
+        self.R = self.kf.R
 
-    def _backward_step(
-            self,
-            xk_forward: NDArray[Shape['6'], Float],
-            Pk_forward: NDArray[Shape['6,6'], Float],
-            xk1_smoothed: NDArray[Shape['6'], Float],
-            Pk1_smoothed: NDArray[Shape['6,6'], Float]
-            ) -> Tuple[
-                NDArray[Shape['6'], Float],
-                NDArray[Shape['6,6'], Float]]:
+    def update(
+        self,
+        xk_forward: NDArray[Shape['6'], Float],
+        Pk_forward: NDArray[Shape['6,6'], Float],
+        xk1_smoothed: NDArray[Shape['6'], Float],
+        Pk1_smoothed: NDArray[Shape['6,6'], Float]
+        ) -> Tuple[
+            NDArray[Shape['6'], Float],
+            NDArray[Shape['6,6'], Float]]:
         
         Pk1_forward = self.kf.A@Pk_forward@self.kf.A.T + self.kf.Q
         W = Pk_forward@self.kf.A.T@np.linalg.inv(Pk1_forward)
