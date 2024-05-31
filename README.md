@@ -12,7 +12,12 @@ conda activate mvc-clip
 pip install -r requirements.txt
 pip install -e .
 
-# run simple test
+# Run pipeline
+python scripts/generate_data
+python scripts/fit_model
+python scripts/run_filters
+
+# Test only segments. replace test_ with the test you want to run
 cd tests
-python -m pytest -k run_pipeline
+python -m pytest -k test_generate_and_print_data -s
 ```
