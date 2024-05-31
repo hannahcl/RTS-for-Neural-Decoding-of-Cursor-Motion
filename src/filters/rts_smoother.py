@@ -7,7 +7,7 @@ from src.filters.kalman_filter import KF
 class RTSSmoother:
     def __init__(self, cfg: dict) -> None:
     
-        self.lag = 5
+        self.lag = 3
 
         self.x_after_forward = np.zeros((self.lag, 6))
         self.P_after_forward = np.zeros((self.lag, 6, 6))

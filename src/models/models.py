@@ -33,16 +33,13 @@ class MeasurmentModel:
         self.H1: NDArray[Shape["42, 6"], Float] | None = None
         self.H2: NDArray[Shape["42, 6"], Float] | None = None
 
-        self.use_nonlin = cfg.use_nonlin_model
-
         self._load_model()
     
     def _load_model(self) -> None:
         assert self.cfg.path_to_measurement_model is not None, "Model is not provided"
+        print(f'Loading model from {self.cfg.path_to_measurement_model}')
         data = np.load(self.cfg.path_to_measurement_model)
         self.H1 = data['H1']
-        if self.use_nonlin:
-            self.H2 = data['H2']
 
     def get_model(self) -> Tuple[NDArray[Shape["42, 6"], Float], Optional[NDArray[Shape["42, 6"], Float]]]:
         return self.H1, self.H2
@@ -50,11 +47,6 @@ class MeasurmentModel:
     def get_measurement(self, x: NDArray[Shape["6"], Float]) -> NDArray[Shape["42"], Float]:
         x = x.reshape((-1,1))
         z = self.H1@x
-
-        if self.use_nonlin:
-            order2 = self.cfg.nonlinear_weight*self.H2@x@x.T@self.H2.T
-            z = z + order2@z
-
         z = z + np.random.normal(np.zeros(self.C), np.ones(self.C)*self.r).reshape((-1,1))
         return z.reshape((-1,))
         

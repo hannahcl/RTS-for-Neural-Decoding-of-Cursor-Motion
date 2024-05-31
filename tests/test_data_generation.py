@@ -17,8 +17,10 @@ from src.models.models import MeasurmentModel
 @pytest.fixture
 def config():
     with initialize(version_base=None, config_path="../configs"):
-        cfg_generate_data = compose(config_name="generate_data", overrides=["N_timesteps=500", "local.base_dir=..", "model.r=0.1"])
-        cfg_fit_model = compose(config_name="fit_model", overrides=["local.base_dir=.."])
+        cfg_generate_data = compose(
+            config_name="generate_data",
+            overrides=["N_timesteps_train=100","N_timesteps_test=200", "local.base_dir=.."])
+        cfg_fit_model = compose(config_name="fit_model", overrides=["local.base_dir=..", "path_to_measurement_model=${local.data_dir}/model/fitted_model.npz"])
         combined_cfg = {'cfg_generate_data': cfg_generate_data, 'cfg_fit_model': cfg_fit_model}
     return combined_cfg
 
@@ -26,6 +28,9 @@ def config():
 def test_generate_and_print_data(config):
 
     config = config['cfg_generate_data']
+
+    generate_data(config)
+
     data_file = os.path.join(config.output_dir, 'test_data.pkl')
 
     timesteps = []
@@ -110,8 +115,6 @@ def test_generate_data_and_fit_model(config):
     plt.show()
 
 
-# if __name__ == "__main__":
-#     test_generate_data_and_fit_model(config())
 
 
 

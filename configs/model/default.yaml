@@ -4,7 +4,7 @@
 # x = [x,y, v_x, v_y, a_x, a_y]
 # z has shape Cx1, whether C is the number of cells
 
-C: 10 #Num cells
+C: 42 #Num cells
 nx: 6 #num states
 
 
@@ -21,8 +21,7 @@ A : [
   [0, 0, 0, 0, 0, 0]]
 
 r: 0.7 #Mesurement noise. R = r * I (CxC)
-r_outliers: 2
-q_vec: [0.0001, 0.0001, 0.0001, 0.0001, 0.01, 0.01] #Process noise. Q = daig(q_vec)
+q_vec: [0.01, 0.01, 0.01, 0.01, 0.0001, 0.0001] #Process noise. Q = daig(q_vec)
 
 
 ## Structure estimated model

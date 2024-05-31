@@ -23,5 +23,4 @@ Pi: [
   [0, 0, 0, 0, 1, 0], 
   [0, 0, 0, 0, 0, 1]]
 
-use_nonlin_model: False
 path_to_measurement_model: ${local.data_dir}/model/fitted_model.npz

@@ -23,25 +23,47 @@ def generate_data(cfg : DictConfig) -> None:
     with open(cfg.output_dir + 'train_data.pkl', 'wb') as file:
         for k in range(cfg.N_timesteps_train):
             x = model.step_once(x)
-            if k % 20 == 0:
-                rand_acceleration = np.random.multivariate_normal(np.zeros(2), np.eye(2)*0.1)
-                x[2:4] += rand_acceleration
-            if k % 20 < 4:
-                x[2:4] += rand_acceleration
             z = mes_model.get_measurement(x)
             pickle.dump((k, x, z), file)
+
+            if k%10 == 0:
+                x[4] = 0
+                x[5] = 10
+
+            if k%30 == 0:
+                x[4] = -10
+                x[5] = 0
+
+            if k%60 == 0:
+                x[4] = 10
+                x[5] = 0
+
+            if k%80 == 0:
+                x[4] = 0
+                x[5] = -10
 
     x_test = np.array(cfg.xi)
     with open(cfg.output_dir + 'test_data.pkl', 'wb') as file:
         for k in range(cfg.N_timesteps_test):
             x_test = model.step_once(x_test)
-            if k % 20 == 0:
-                rand_acceleration = np.random.multivariate_normal(np.zeros(2), np.eye(2)*0.1)
-                x_test[2:4] += rand_acceleration
-            if k % 20 < 4:
-                x[2:4] += rand_acceleration
             z_test = mes_model.get_measurement(x_test)
             pickle.dump((k, x_test, z_test), file)
+
+            if k%20 == 0:
+                x_test[4] = 10
+                x_test[5] = 0
+
+            if k%40 == 0:
+                x_test[4] = 0
+                x_test[5] = 10
+
+            if k%60 == 0:
+                x_test[4] = -10
+                x_test[5] = 0
+
+            if k%80 == 0:
+                x_test[4] = 0
+                x_test[5] = -10
 
 def create_random_model(cfg: DictConfig) -> None:
     H1 = np.random.rand(cfg.model.C, cfg.model.nx)
