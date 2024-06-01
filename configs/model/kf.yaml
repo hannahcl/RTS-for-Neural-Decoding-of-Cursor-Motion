@@ -20,7 +20,7 @@ A : [
   [0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0]]
 
-r: 0.1 #Mesurement noise. R = r * I (CxC)
+r: 0.001 #Mesurement noise. R = r * I (CxC)
 q_vec: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1] #Process noise. Q = daig(q_vec)
 
 

@@ -24,7 +24,7 @@ class ProcessModel:
 
 class MeasurmentModel:
 
-    def __init__(self, cfg: DictConfig) -> None:
+    def __init__(self, cfg: DictConfig, use_nonlin_model: bool = False, nonlin_coeff: float = 0.001) -> None:
 
         self.cfg = cfg
         self.r = cfg.model.r
@@ -32,6 +32,9 @@ class MeasurmentModel:
 
         self.H1: NDArray[Shape["42, 6"], Float] | None = None
         self.H2: NDArray[Shape["42, 6"], Float] | None = None
+
+        self.use_nonlin_model = use_nonlin_model
+        self.nonlin_coeff = nonlin_coeff
 
         self._load_model()
     
@@ -47,6 +50,10 @@ class MeasurmentModel:
     def get_measurement(self, x: NDArray[Shape["6"], Float]) -> NDArray[Shape["42"], Float]:
         x = x.reshape((-1,1))
         z = self.H1@x
+
+        if self.use_nonlin_model:
+            z +=  self.nonlin_coeff*(z**2 + np.sin(z))
+
         z = z + np.random.normal(np.zeros(self.C), np.ones(self.C)*self.r).reshape((-1,1))
         return z.reshape((-1,))
         

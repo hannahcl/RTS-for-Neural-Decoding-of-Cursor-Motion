@@ -17,7 +17,7 @@ def generate_data(cfg : DictConfig) -> None:
 
     random.seed(cfg.seed)
     model = ProcessModel(cfg)
-    mes_model = MeasurmentModel(cfg)
+    mes_model = MeasurmentModel(cfg, use_nonlin_model=True, nonlin_coeff=0.0001)
 
     x = np.array(cfg.xi)
     with open(cfg.output_dir + 'train_data.pkl', 'wb') as file:
